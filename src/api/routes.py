@@ -6,7 +6,7 @@ from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 api = Blueprint('api', __name__)
 
@@ -24,6 +24,7 @@ def handle_hello():
     return jsonify(response_body), 200
 
 
+#signup endpoint
 @api.route('/signup', methods=['POST'])
 def signup():
     username = request.json.get('username')
@@ -45,6 +46,7 @@ def signup():
     return jsonify({"token": token}), 201
 
 
+#login endpoint
 @api.route('/login', methods=['POST'])
 def login():
     email = request.json.get('email')
@@ -60,3 +62,12 @@ def login():
 
     token = user.generate_token()
     return jsonify({"token": token}), 200
+
+
+#private data endpoint
+@api.route('/private-data', methods=['GET'])
+@jwt_required()
+def private_data():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    return jsonify({"private-data": user.email}), 200
