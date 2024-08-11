@@ -20,6 +20,7 @@ class User(db.Model):
             "id": self.id,
             "username": self.username,
             "email": self.email,
+            "is_active": self.is_active,
         }
 
     def set_password(self, password):
