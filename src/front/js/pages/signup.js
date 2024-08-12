@@ -7,21 +7,23 @@ export const Signup = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await actions.signup(username, email, password);
-        if (response) {
+        if (response.success) {
             navigate("/login");
         } else {
-            alert("Signup failed!");
+            setErrorMessage(response.error);
         }
     };
 
     return (
         <div className="container">
             <h2>Signup</h2>
+            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label className="form-label">Username</label>

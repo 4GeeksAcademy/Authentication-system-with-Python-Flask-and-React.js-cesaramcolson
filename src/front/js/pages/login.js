@@ -6,21 +6,23 @@ export const Login = () => {
     const { actions } = useContext(Context);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await actions.login(email, password);
-        if (response) {
+        if (response.success) {
             navigate("/private");
         } else {
-            alert("Login failed!");
+            setErrorMessage(response.error);
         }
     };
 
     return (
         <div className="container">
-            <h2>Login</h2>
+        <h2>Login</h2>
+        {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label className="form-label">Email</label>

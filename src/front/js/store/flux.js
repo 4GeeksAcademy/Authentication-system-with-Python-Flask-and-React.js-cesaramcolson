@@ -32,12 +32,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (resp.ok) {
 						const data = await resp.json();
 						setStore({ token: data.token });
-						return data;
+						return { success: true, data };
 					} else {
-						console.error("Error signing up", resp.status);
+						const errorData = await resp.json();
+						return { success: false, error: errorData.error };
 					}
 				} catch (error) {
 					console.log("Error signing up", error);
+					return { success: false, error: "An unexpected error occurred" };
 				}
 			},
 
@@ -54,12 +56,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (resp.ok) {
 						const data = await resp.json();
 						setStore({ token: data.token });
-						return data;
+						return { success: true, data };
 					} else {
-						console.error("Error logging in", resp.status);
+						const errorData = await resp.json(); // Get the error message from the response
+						return { success: false, error: errorData.error };
 					}
 				} catch (error) {
 					console.log("Error logging in", error);
+					return { success: false, error: "An unexpected error occurred" };
 				}
 			},
 
