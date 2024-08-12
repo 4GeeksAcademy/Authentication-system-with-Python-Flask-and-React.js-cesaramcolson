@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 export const ProfileCard = () => {
     const { store, actions } = useContext(Context);
@@ -7,6 +8,7 @@ export const ProfileCard = () => {
     const [username, setUsername] = useState(store.privateData.username);
     const [email, setEmail] = useState(store.privateData.email);
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleUpdate = async () => {
         const response = await actions.updateUser(username, email, password);
@@ -23,6 +25,7 @@ export const ProfileCard = () => {
         if (response) {
             alert("User deleted successfully!");
             actions.logout();
+            navigate("/");
         } else {
             alert("Delete failed!");
         }
