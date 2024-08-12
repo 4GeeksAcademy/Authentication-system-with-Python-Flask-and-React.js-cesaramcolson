@@ -83,7 +83,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.log("Error fetching private data", error);
 				}
-			}
+			},
+			//log out fuction to set the token null
+			logout: () => {
+                setStore({ token: null });
+            }
 		}
 	};
 };
