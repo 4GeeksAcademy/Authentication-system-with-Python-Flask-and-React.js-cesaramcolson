@@ -6,12 +6,22 @@ export const Private = () => {
     const { store, actions } = useContext(Context);
 
     useEffect(() => {
-        actions.getPrivateData();
-    }, []);
+        if (store.token) {
+            actions.getPrivateData();
+        }
+    }, [store.token]);
 
     return (
         <div className="container mt-5">
-            {store.privateData ? <ProfileCard /> : <p>Loading...</p>}
+            {store.privateData ? (
+                <div>
+                    <h2>Private Data</h2>
+                    <p>{store.privateData}</p>
+                    <ProfileCard />
+                </div>
+            ) : (
+                <p>Loading...</p>
+            )}
         </div>
     );
 };

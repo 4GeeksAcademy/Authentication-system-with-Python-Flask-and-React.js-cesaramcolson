@@ -13,7 +13,7 @@ export const Login = () => {
         e.preventDefault();
         const response = await actions.login(email, password);
         if (response.success) {
-            navigate("/private");
+            navigate("/");
         } else {
             setErrorMessage(response.error);
         }
@@ -21,8 +21,8 @@ export const Login = () => {
 
     return (
         <div className="container">
-        <h2>Login</h2>
-        {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+            <h2>Login</h2>
+            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label className="form-label">Email</label>

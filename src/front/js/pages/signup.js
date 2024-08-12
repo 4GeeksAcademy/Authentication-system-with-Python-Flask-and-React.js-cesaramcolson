@@ -14,7 +14,7 @@ export const Signup = () => {
         e.preventDefault();
         const response = await actions.signup(username, email, password);
         if (response.success) {
-            navigate("/login");
+            navigate("/");
         } else {
             setErrorMessage(response.error);
         }
