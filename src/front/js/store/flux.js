@@ -84,10 +84,56 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error fetching private data", error);
 				}
 			},
+
 			//log out fuction to set the token null
 			logout: () => {
                 setStore({ token: null });
-            }
+            },
+
+			//updates users data when logged in
+			updateUser: async (username, email, password) => {
+				const store = getStore();
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "/api/user", {
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${store.token}`
+						},
+						body: JSON.stringify({ username, email, password })
+					});
+					if (resp.ok) {
+						const data = await resp.json();
+						setStore({ privateData: data.user });
+						return data;
+					} else {
+						console.error("Error updating user", resp.status);
+					}
+				} catch (error) {
+					console.log("Error updating user", error);
+				}
+			},
+
+			//option to delete user when logged in
+			deleteUser: async () => {
+				const store = getStore();
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "/api/user", {
+						method: "DELETE",
+						headers: {
+							"Authorization": `Bearer ${store.token}`
+						}
+					});
+					if (resp.ok) {
+						return true;
+					} else {
+						console.error("Error deleting user", resp.status);
+					}
+				} catch (error) {
+					console.log("Error deleting user", error);
+				}
+				return false;
+			}
 		}
 	};
 };

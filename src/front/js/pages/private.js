@@ -1,23 +1,17 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import { useNavigate } from "react-router-dom";
+import { ProfileCard } from "../component/ProfileCard";
 
 export const Private = () => {
     const { store, actions } = useContext(Context);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        if (!store.token) {
-            navigate("/login");
-        } else {
-            actions.getPrivateData();
-        }
-    }, [store.token]);
+        actions.getPrivateData();
+    }, []);
 
-    return store.token ? (
-        <div className="container">
-            <h2>Private Data</h2>
-            <p>Your private data: {store.privateData}</p>
+    return (
+        <div className="container mt-5">
+            {store.privateData ? <ProfileCard /> : <p>Loading...</p>}
         </div>
-    ) : null;
+    );
 };
