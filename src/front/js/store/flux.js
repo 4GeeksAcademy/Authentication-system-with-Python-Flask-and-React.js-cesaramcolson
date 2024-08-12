@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			token: null,
+			token: sessionStorage.getItem("token") || null,
 			privateData: null,
 			message: null
 		},
@@ -32,6 +32,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (resp.ok) {
 						const data = await resp.json();
 						setStore({ token: data.token });
+						sessionStorage.setItem("token", data.token);
 						return { success: true, data };
 					} else {
 						const errorData = await resp.json();
@@ -56,9 +57,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (resp.ok) {
 						const data = await resp.json();
 						setStore({ token: data.token });
+						sessionStorage.setItem("token", data.token);
 						return { success: true, data };
 					} else {
-						const errorData = await resp.json(); // Get the error message from the response
+						const errorData = await resp.json();
 						return { success: false, error: errorData.error };
 					}
 				} catch (error) {
@@ -92,6 +94,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			//log out fuction to set the token null
 			logout: () => {
                 setStore({ token: null });
+				sessionStorage.removeItem('token');
             },
 
 			//updates users data when logged in
