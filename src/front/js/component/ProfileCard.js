@@ -15,6 +15,7 @@ export const ProfileCard = () => {
         if (response) {
             setEditing(false);
             alert("Profile updated successfully!");
+            navigate("/");
         } else {
             alert("Update failed!");
         }
@@ -69,8 +70,10 @@ export const ProfileCard = () => {
                     </>
                 ) : (
                     <>
-                        <h5 className="card-title">{store.privateData.username}</h5>
-                        <p className="card-text">{store.privateData.email}</p>
+                        <h2 className="card-title">Private Data</h2>
+                        <p className="card-text">username: {store.privateData.username}</p>
+                        <p className="card-text">email: {store.privateData.email}</p>
+                        <p className="card-text">id: {store.privateData.id}</p>
                         <button
                             className="btn btn-warning"
                             onClick={() => setEditing(true)}

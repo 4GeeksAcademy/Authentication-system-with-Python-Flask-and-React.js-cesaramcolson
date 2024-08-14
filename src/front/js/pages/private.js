@@ -17,14 +17,12 @@ export const Private = () => {
                 navigate("/login");
             });
         }
-    }, [actions, navigate]);
+    }, []);
 
     return (
         <div className="container mt-5">
             {store.privateData ? (
                 <div>
-                    <h2>Private Data</h2>
-                    <p>{store.privateData}</p>
                     <ProfileCard />
                 </div>
             ) : (

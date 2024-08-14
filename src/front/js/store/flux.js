@@ -109,18 +109,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify({ username, email, password })
 					});
+			
 					if (resp.ok) {
 						const data = await resp.json();
-						setStore({ privateData: data.user });
-						return data;
+						console.log("private-data", store.privateData)
+						setStore({ privateData: data });
+						return { success: true, data };
 					} else {
-						console.error("Error updating user", resp.status);
+						const errorData = await resp.json();
+						return { success: false, error: errorData.error };
 					}
 				} catch (error) {
 					console.log("Error updating user", error);
+					return { success: false, error: "An unexpected error occurred" };
 				}
 			},
-
+			
 			//option to delete user when logged in
 			deleteUser: async () => {
 				const store = getStore();

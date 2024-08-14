@@ -70,7 +70,7 @@ def login():
 def private_data():
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
-    return jsonify({"private-data": user.email}), 200
+    return jsonify({"private-data": user.serialize()}), 200
 
 
 #update users data only when logged in
